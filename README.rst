@@ -61,6 +61,12 @@ For full usage, run::
 Install
 -------
 
-Run::
+This package is not on pypi, but you can install the lastest version
+from the main repository::
+
+  $ pip install https://bitbucket.org/caret/romeo_scrape/get/master.zip
+
+Another way is to checkout the code locally, then run the following from
+in the checked out directory::
 
   $ python setup.py install
