@@ -22,18 +22,20 @@ printing them to stdout.
 
 Usage:
     romeo_scrape.py
-    romeo_scrape.py [--raw-html | --ugly-json]
+    romeo_scrape.py [--raw-html | --ugly-json | --csv]
     romeo_scrape.py (-h | --help)
     romeo_scrape.py --version
 
 Options:
   --raw-html   Output the HTML response from SHERPA RoMEO instead of JSON.
+  --csv        Use CSV output
   --ugly-json  Don't pretty print the JSON output.
   -h --help    Show this screen.
   --version    Print the version and exit.
 """
 
 from collections import OrderedDict
+import csv
 import json
 import re
 import sys
@@ -98,6 +100,19 @@ def split_ssns(ssn_str):
     return SSN_PATTERN.findall(ssn_str)
 
 
+def write_csv(journals, file=sys.stdout):
+    writer = csv.writer(sys.stdout)
+    writer.writerows(
+        csv_row(j)
+        for j in journals
+    )
+
+
+def csv_row(j):
+    row = [j["title"], j["publisher"], ",".join(j["issn"]), ",".join(j["essn"]), j["colour"], j["notes"]]
+    return [(cell or "").encode("utf-8") for cell in row]
+
+
 def main():
     arguments = docopt(__doc__, version=VERSION, help=True)
 
@@ -105,6 +120,10 @@ def main():
 
     if arguments["--raw-html"]:
         sys.stdout.write(html.encode("utf-8"))
+        sys.exit(0)
+
+    if arguments["--csv"]:
+        write_csv(parse_journals(html))
         sys.exit(0)
 
     journal_data = OrderedDict([
