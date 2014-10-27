@@ -50,7 +50,7 @@ ROMEO_URL = "http://www.sherpa.ac.uk/romeo/"
 # all journals.
 # FIXME: pageno
 ALL_JOURNALS_URL = (
-    "http://www.sherpa.ac.uk/romeo/journalbrowse.php?pageno=9999&letter=A")
+    "http://www.sherpa.ac.uk/romeo/journalbrowse.php?pageno=9999&letter=Z")
 SSN_PATTERN = re.compile(r"[0-9]{4}-[0-9]{3}[0-9X]")
 EMPTY_PATTERN = re.compile(r"^\s*-\s*$")
 
